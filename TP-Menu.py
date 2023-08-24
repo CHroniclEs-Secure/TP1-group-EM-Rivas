@@ -96,7 +96,7 @@ def ajouter_document(livres):  # option 4 - ajouter un document.
         new_Doc.writerow([titre, auteur, annee_pub, emprunte])
     livreAjoute = biblio.Bibliotheque(titre, auteur, annee_pub, emprunte)
     livres.append(livreAjoute)
-    print(titre," ", auteur," ",annee_pub, " a été ajouté à la liste des membres!.")
+    print(titre," ", auteur," ",annee_pub, " a été ajouté à la liste Bibliotheque!.")
     while True:
         print("======================================================= \n")
         retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
