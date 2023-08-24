@@ -181,7 +181,6 @@ def afficher_document(livres):  # option 6 - affiche de la liste d'information d
         retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
         if retourner_au_menu == '':
             return  # option 6
-
 def afficher_emprunts(emprunts):  # option 9 - affiche de la liste d'information des clients
     print("******************************************************* \n"
           "     Vous avez choisi Opt. 9 - Liste Adhérant           \n"
@@ -196,8 +195,6 @@ def afficher_emprunts(emprunts):  # option 9 - affiche de la liste d'information
         retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
         if retourner_au_menu == '':
             return # option 9
-
-
 
 
 membres = informationAdherant(fichier_Membre="Adherants.txt")
