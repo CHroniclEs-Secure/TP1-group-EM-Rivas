@@ -88,7 +88,7 @@ def ajouter_document(livres):  # option 4 - ajouter un document.
     titre = input("Entrez le titre du livre: ")
     auteur = input("Entrez le nom de l'auteur: ")
     annee_pub = input("Entrez l'année de publication: ")
-    emprunte = input("Est-ce que le livre est emprunté? (Oui/Non): ")
+    emprunte = input("Est-ce que le livre est disponible pour l'emprunter? (Oui/Non): ")
     with open("Biblio.txt", 'a', newline='') as fichier:  # a --> pour ajouter et ne pas effacer ce qui a.
         if fichier.tell() != 0:
             fichier.write("\n")
