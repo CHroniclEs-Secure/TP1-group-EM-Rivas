@@ -153,7 +153,7 @@ def ajouter_emprunt(livres, emprunts, membres, fichierLivres="Biblio.txt", fichi
             return
 
 
-def afficher_adherents(membres):  # option 3 - affiche de la liste d'information des clients
+def afficher_adherants(membres):  # option 3 - affiche de la liste d'information des clients
     print("******************************************************* \n"
           "     Vous avez choisi Opt. 3 - Liste Adhérant           \n"
           "******************************************************* \n"
@@ -207,11 +207,11 @@ while True:
     choix_d_option = input(" >>> Saisir votre choix: \n")
     if choix_d_option in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "Q"]:
         if choix_d_option == "1":
-            ajouter_adherent(membres)
+            ajouter_adherant(membres)
         elif choix_d_option == "2":
-            supprimer_adherent(membres)
+            supprimer_adherant(membres)
         elif choix_d_option == "3":
-            afficher_adherents(membres)
+            afficher_adherants(membres)
         elif choix_d_option == "4":
             ajouter_document(livres)
         elif choix_d_option == "5":
