@@ -2,12 +2,11 @@
 import csv
 from datetime import date
 import os
-
 import pkgAdherants.Adherant as membre
 import pkgDocuments.Bibliotheque as biblio
 import pkgEmprunt.Emprunts as emp
 
-def informationAdherant(fichier_Membre="Adherants.txt"):
+def informationAdherent(fichier_Membre="Adherants.txt"):
     membres = []  # Liste des membres
     with open(fichier_Membre, 'r') as fichiers:
         adherant = csv.reader(fichiers, delimiter=';')
@@ -16,7 +15,6 @@ def informationAdherant(fichier_Membre="Adherants.txt"):
             membrex = membre.Adherant(membre_nom, membre_prenom)
             membres.append(membrex)
     return membres
-
 def informationBiblio(fichier_Biblio="Biblio.txt"):
     livres = []  # Liste des livres
     with open(fichier_Biblio, 'r') as liste:
@@ -26,10 +24,9 @@ def informationBiblio(fichier_Biblio="Biblio.txt"):
             livreChoisit = biblio.Bibliotheque(titre, auteur, annee_pub, disponible)
             livres.append(livreChoisit)
     return livres
-
-def informationEmprunt(fichierEmprunt="Empruntes.txt"):
+def informationEmprunt(fichier_Emprunt="Empruntes.txt"):
     emprunts = []  # Liste des emprunts
-    with open(fichierEmprunt, 'r') as liste:
+    with open(fichier_Emprunt, 'r') as liste:
         fichier = csv.reader(liste, delimiter=';')
         for line in fichier:
             membre_nom, membre_prenom, livre, date_emprunte = line
@@ -55,7 +52,7 @@ def menuPrincipal():  # liste des options a avoir.
                            "======================================================== \n")
     return choix_d_option
 
-def ajouter_adherant(membres): #option 1 - ajouter membre
+def ajouter_adherent(membres): #option 1 - ajouter membre
     print("******************************************************* \n"
           "     Vous avez choisi Opt. 1 - Ajouter Adhérant         \n"
           "******************************************************* \n"
@@ -102,8 +99,8 @@ def ajouter_document(livres):  # option 4 - ajouter un document.
         retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
         if retourner_au_menu == '':
             return
-def ajouter_emprunt(livres, emprunts, membres, fichierLivres="Biblio.txt", fichierAdherants="Adherants.txt",
-                    fichierEmprunts="Empruntes.txt"):   ## option 7 - Ajouter emprunt
+def ajouter_emprunt(livres, emprunts, membres, fichier_Biblio="Biblio.txt", fichier_Membre="Adherants.txt",
+                    fichier_Emprunts="Empruntes.txt"):   ## option 7 - Ajouter emprunt
     print("******************************************************* \n"
           "     Vous avez choisi Opt. 7 - Emprunter un Document    \n"
           "******************************************************* \n"
@@ -123,7 +120,7 @@ def ajouter_emprunt(livres, emprunts, membres, fichierLivres="Biblio.txt", fichi
           livre_trouve.getDisponible())
     emprunter = input("Confirmer l'emprunte du livre: (Oui/Non)")
     if emprunter.lower() == "oui":
-        membre_nom = input("Entrez votre nom: ")
+        membre_nom = input("Entrez le nom de l'emprunteur: ")
         membre_existe = None
         for membre in membres:
             if membre.getMembre_nom() == membre_nom:
@@ -134,18 +131,17 @@ def ajouter_emprunt(livres, emprunts, membres, fichierLivres="Biblio.txt", fichi
             return
         # If member exists, update the availability of the book and add the rental to Empruntes.txt
         livre_trouve.setDisponible("Non")
-        current_date = date.today().strftime("%d/%m/%Y") # to settle date
-        with open(fichierEmprunts, 'a', newline='') as info_Emprunt:
-            writer = csv.writer(info_Emprunt, delimiter=';')
+        date_d_emprunt= date.today().strftime("%d/%m/%Y") # to settle date
+        with open(fichier_Emprunts, 'a', newline='') as info_Emprunt:
+            recrire = csv.writer(info_Emprunt, delimiter=';')
             info_Emprunt.write('\n')
-            writer.writerow([membre_existe.getMembre_nom(), membre_existe.getMembre_prenom(), titre, current_date])
+            recrire.writerow([membre_existe.getMembre_nom(), membre_existe.getMembre_prenom(), titre, date_d_emprunt])
         print("Vous avez emprunté", titre, "!")
     # Rewrite Biblio.txt with updated information
-    with open(fichierLivres, 'w', newline='') as fichier:
+    with open(fichier_Biblio, 'w', newline='') as fichier:
         recrire = csv.writer(fichier, delimiter=';')
         for document in livres:
-            recrire.writerow(
-                [document.getTitre(), document.getAuteur(), document.getAnnee_pub(), document.getDisponible()])
+            recrire.writerow([document.getTitre(), document.getAuteur(), document.getAnnee_pub(), document.getDisponible()])
     while True:
         print("======================================================= \n")
         retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
@@ -153,7 +149,94 @@ def ajouter_emprunt(livres, emprunts, membres, fichierLivres="Biblio.txt", fichi
             return
 
 
-def afficher_adherants(membres):  # option 3 - affiche de la liste d'information des clients
+def supprimer_adherent(fichier_Membre="Adherants.txt"): #option 2
+    print("******************************************************* \n"
+          "   Vous avez choisi Opt. 2 - Supprimer un Adhérant    \n"
+          "******************************************************* \n"
+          "======================================================= \n"
+          "  Pour supprimer un adhérant, rentrer les détails:     \n"
+          "======================================================= \n")
+
+    membre_nom_to_effacer = input("Entrez le nom de l'adhérant à supprimer: ")
+    membre_prenom_to_effacer = input("Entrez le prénom de l'adhérant à supprimer: ")
+
+    try:
+        with open(fichier_Membre, 'r') as fichier:
+            lecteure_fichier = csv.reader(fichier, delimiter=';')
+
+            adherants = [membre for membre in lecteure_fichier if membre and membre[0] != membre_nom_to_effacer and membre[1] != membre_prenom_to_effacer]
+
+            if len(adherants) == len(list(lecteure_fichier)):
+                print("L'adhérant n'existe pas!")
+                return
+
+            confirmation = input(f"Confirmez-vous la suppression de {membre_nom_to_effacer} {membre_prenom_to_effacer}? (Oui/Non): ").strip().lower()
+            if confirmation != 'oui':
+                print("Suppression annulée.")
+                return
+
+        with open(fichier_Membre, 'w', newline='') as adh_membre:
+            recrire = csv.writer(adh_membre, delimiter=';')
+            recrire.writerows(adherants)
+
+        print("L'adhérant a été supprimé avec succès!")
+
+    except FileNotFoundError:
+        print(f"File '{fichier_Membre}' not found.")
+
+    while True:
+        print("======================================================= \n")
+        retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
+        if retourner_au_menu == '':
+            return
+
+
+def supprimer_document(fichier_Biblio="Biblio.txt"): # option 5
+    print("******************************************************* \n"
+          "   Vous avez choisi Opt. 5 - Supprimer un Livre         \n"
+          "******************************************************* \n"
+          "======================================================= \n"
+          "  Pour supprimer un livre, rentrer les détails:         \n"
+          "======================================================= \n")
+
+    titre_a_effacer = input("Entrez le titre du livre à supprimer: ")
+
+    try:
+        with open(fichier_Biblio, 'r') as fichier:
+            lecteure_fichie = csv.reader(fichier, delimiter=';')
+
+            # Filter and store books not matching the deletion criteria
+            liste_livres = [livre for livre in lecteure_fichie if
+                            livre and livre[0] != titre_a_effacer]
+
+            if len(liste_livres) == len(list(lecteure_fichie)):
+                print("Le livre n'existe pas!")
+                return
+
+            confirmation = input(
+                f"Confirmez-vous la suppression de '{titre_a_effacer}'? (Oui/Non): ").strip().lower()
+            if confirmation != 'oui':
+                print("Suppression annulée.")
+                return
+
+        with open(fichier_Biblio, 'w', newline='') as update:
+            lecture_fichier = csv.writer(update, delimiter=';')
+            lecture_fichier.writerows(liste_livres)
+
+        print("Le livre a été supprimé avec succès!")
+
+    except FileNotFoundError:
+        print(f"File '{fichier_Biblio}' not found.")
+
+    while True:
+        print("======================================================= \n")
+        retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
+        if retourner_au_menu == '':
+            return
+
+
+
+def afficher_adherents(membres):  # option 3 - affiche de la liste d'information des clients
     print("******************************************************* \n"
           "     Vous avez choisi Opt. 3 - Liste Adhérant           \n"
           "******************************************************* \n"
@@ -167,7 +250,7 @@ def afficher_adherants(membres):  # option 3 - affiche de la liste d'information
         retourner_au_menu = input("Vouillez appuyer sur 'ENTER' pour retourner au menu principal: ")
         if retourner_au_menu == '':
             return # option 3
-def afficher_document(livres):  # option 6 - affiche de la liste d'information des clients
+def afficher_documents(livres):  # option 6 - affiche de la liste d'information des clients
     print("******************************************************* \n"
           "     Vous avez choisi Opt. 6 - Liste Bibliotheque       \n"
           "******************************************************* \n"
@@ -197,27 +280,27 @@ def afficher_emprunts(emprunts):  # option 9 - affiche de la liste d'information
             return # option 9
 
 
-membres = informationAdherant(fichier_Membre="Adherants.txt")
+membres = informationAdherent(fichier_Membre="Adherants.txt")
 livres = informationBiblio(fichier_Biblio="Biblio.txt")
-emprunts = informationEmprunt(fichierEmprunt="Empruntes.txt")
+emprunts = informationEmprunt(fichier_Emprunt="Empruntes.txt")
 
 #body programme
 while True:
     menuPrincipal() #menu d'options
-    choix_d_option = input(" >>> Saisir votre choix: \n")
+    choix_d_option = input(" >>> Saisir votre choix: \n").upper()
     if choix_d_option in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "Q"]:
         if choix_d_option == "1":
-            ajouter_adherant(membres)
+            ajouter_adherent(membres)
         elif choix_d_option == "2":
-            supprimer_adherant(membres)
+            supprimer_adherent()
         elif choix_d_option == "3":
-            afficher_adherants(membres)
+            afficher_adherents(membres)
         elif choix_d_option == "4":
             ajouter_document(livres)
         elif choix_d_option == "5":
-            supprimer_document(livres)
+            supprimer_document()
         elif choix_d_option == "6":
-            afficher_document(livres)
+            afficher_documents(livres)
         elif choix_d_option == "7":
             ajouter_emprunt(livres, emprunts, membres)
         elif choix_d_option == "8":
