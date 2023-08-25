@@ -1,0 +1,21 @@
+Titre;Auteur;Année;Disponible
+L'Etranger;Albert Camus;1942;oui
+Les Miserables;Victor Hugo;1862;Non
+Le Petit Prince;Antoine de Saint-Exupéry;1943;oui
+Candide;Voltaire;1759;Non
+La metamorphose;Kafka;1915;oui
+Le Seigneur des anneaux;J.R.R. Tolkien;1954;oui
+Crime et Chatiment;Fiodor Dostoïevski;1866;oui
+Hamlet;Shakespeare;1603;oui
+Le Horla;Guy de Maupassant;1887;Oui
+Le journal d'Anna Frank;Anna Frank;1947;oui
+L'Odyssee;Homère;1614;oui
+L'Idiot;Fyodor Dostoevsky;1869;oui
+La devine comédie;Dante Alighieri;1472;oui
+Le prince; Nicolas Machiavel;1513;oui
+L'insoutenable légèreté de l'être;Milan Kundera;1984;oui
+La fete de l'insignifiance;Milan Kundera;2013;oui
+Don Quichotte;Miguel de Cervantes;1605;oui
+La liste de Schindler; Thomas Keneally;1993;oui
+La Princesse de Clèves; Mme de La Fayette; 1678;oui
+The CHronicles of Narnia: The Lion, the Witch and the Wardrobe;C.S. Lewis;1950;oui
